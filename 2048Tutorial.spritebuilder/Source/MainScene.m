@@ -13,6 +13,13 @@
   Grid *_grid;
   CCLabelTTF *_scoreLabel;
   CCLabelTTF *_highscoreLabel;
+  CCTime _gameTime;
+    double _time;
+    struct timeval tv;
+    struct timeval cv;
+    NSDate *start;
+    bool _planted;
+    OALSimpleAudio *audio;
 }
 
 - (void)dealloc {
@@ -29,6 +36,12 @@
 
   // load highscore
   [self updateHighscore];
+    //gettimeofday(&tv,NULL);
+    start = [NSDate date];
+    _planted = false;
+    audio = [OALSimpleAudio sharedInstance];
+    [audio preloadEffect:@"Resources/Audio/planted.mp3"];
+    [audio preloadEffect:@"Resources/Audio/bomb.wav"];
 }
 
 - (void)updateHighscore {
@@ -47,6 +60,28 @@
   } else if ([keyPath isEqualToString:@"highscore"]) {
     [self updateHighscore];
   }
+}
+
+float roundToN(float num, int decimals)
+{
+    int tenpow = 1;
+    for (; decimals; tenpow *= 10, decimals--);
+    return round(tenpow * num) / tenpow;
+}
+
+- (void)update:(CCTime)delta {
+    NSTimeInterval timeInterval = [start timeIntervalSinceNow];
+    if (roundToN(timeInterval * -1,2 ) == 5.0f ) {
+        //_planted = true;
+        [audio playEffect:@"planted.mp3"];
+        NSLog(@"%f", timeInterval);
+    }
+    
+    if (roundToN(timeInterval * -1,2 ) == 10.0f ) {
+        //_planted = true;
+        [audio playEffect:@"bomb.wav"];
+        NSLog(@"%f", timeInterval);
+    }
 }
 
 @end
