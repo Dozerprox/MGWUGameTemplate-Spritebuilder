@@ -13,10 +13,6 @@
   Grid *_grid;
   CCLabelTTF *_scoreLabel;
   CCLabelTTF *_highscoreLabel;
-  CCTime _gameTime;
-    double _time;
-    struct timeval tv;
-    struct timeval cv;
     NSDate *start;
     bool _planted;
     OALSimpleAudio *audio;
@@ -42,6 +38,11 @@
     audio = [OALSimpleAudio sharedInstance];
     [audio preloadEffect:@"Resources/Audio/planted.mp3"];
     [audio preloadEffect:@"Resources/Audio/bomb.wav"];
+    [audio preloadEffect:@"Resources/Audio/twin.mp3"];
+    [audio preloadEffect:@"Resources/Audio/ctwin.mp3"];
+    [audio preloadEffect:@"Resources/Audio/getout.mp3"];
+    [audio preloadEffect:@"Resources/Audio/defused.mp3"];
+    [audio playEffect:@"go.mp3"];
 }
 
 - (void)updateHighscore {
