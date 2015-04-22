@@ -681,7 +681,7 @@ detonated!</string>
 						<string>String</string>
 						<key>value</key>
 						<array>
-							<string>Restart</string>
+							<string>Try Again</string>
 							<false/>
 						</array>
 					</dict>
@@ -693,7 +693,7 @@ detonated!</string>
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>ccbResources/ccbButtonNormal.png</string>
+							<string>Interface/buttons-30@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -704,7 +704,7 @@ detonated!</string>
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>ccbResources/ccbButtonHighlighted.png</string>
+							<string>Interface/buttons-31@4x.png</string>
 						</array>
 					</dict>
 					<dict>

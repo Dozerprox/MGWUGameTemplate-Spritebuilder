@@ -49,5 +49,31 @@
   }
 }
 
+/* 
+ PLACEHOLDER CODE FOR FUTURE IMPLEMENTATION ADDONS!!!
+ 
+ NSString *post = [NSString stringWithFormat:@”&Username=%@&Password=%@”,@”username”,@”password”];
+ NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+ NSString *postLength = [NSString stringWithFormat:@”%d”,[postData length]];
+ NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
+ [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@”http://www.mycsgoserver.com;
+ [request setHTTPMethod:@”POST”];
+ [request setValue:postLength forHTTPHeaderField:@”Content-Length”];
+ [request setValue:@”application/x-www-form-urlencoded” forHTTPHeaderField:@”Current-Type”];
+ [request setHTTPBody:postData];
+ NSURLConnection *conn = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+ if(conn)
+ {
+ NSLog(@”Connection Successful”)
+ }
+ else
+ {
+ NSLog(@”Connection could not be made”);
+ }
+ – (void)connection:(NSURLConnection *)connection didReceiveData:(NSData*)data
+ – (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+ – (void)connectionDidFinishLoading:(NSURLConnection *)connection
+*/
+
 
 @end
