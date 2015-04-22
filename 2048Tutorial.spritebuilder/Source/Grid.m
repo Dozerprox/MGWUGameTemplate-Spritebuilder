@@ -17,6 +17,7 @@
   CGFloat _tileMarginHorizontal;
   NSMutableArray *_gridArray;
   NSNull *_noTile;
+  OALSimpleAudio *audio;
 }
 
 static const NSInteger GRID_SIZE = 4;
@@ -58,6 +59,15 @@ static const NSInteger WIN_TILE = 2048;
   UISwipeGestureRecognizer *swipeDown= [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeDown)];
   swipeDown.direction = UISwipeGestureRecognizerDirectionDown;
   [[[CCDirector sharedDirector]view]addGestureRecognizer:swipeDown];
+    
+  audio = [OALSimpleAudio sharedInstance];
+  [audio preloadEffect:@"Resources/Audio/planted.mp3"];
+  [audio preloadEffect:@"Resources/Audio/bomb.wav"];
+  [audio preloadEffect:@"Resources/Audio/twin.mp3"];
+  [audio preloadEffect:@"Resources/Audio/ctwin.mp3"];
+  [audio preloadEffect:@"Resources/Audio/getout.mp3"];
+  [audio preloadEffect:@"Resources/Audio/defused.mp3"];
+  [audio playEffect:@"go.mp3"];
 }
 
 #pragma mark - Next Round
@@ -117,15 +127,20 @@ static const NSInteger WIN_TILE = 2048;
 
 #pragma mark - End Conditions
 
-- (void)endGameWithMessage:(NSString *)message {
-  GameEnd *gameEndPopover = (GameEnd *)[CCBReader load:@"GameEnd"];
+- (void)endGameVictory:(NSString *)message {
+  GameEnd *gameEndPopover = (GameEnd *)[CCBReader load:@"GameEndVictory"];
   gameEndPopover.positionType = CCPositionTypeNormalized;
   gameEndPopover.position = ccp(0.5, 0.5);
   gameEndPopover.zOrder = INT_MAX;
 
   [gameEndPopover setMessage:message score:self.score];
 
+  
+  [audio playEffect:@"defused.mp3"];
   [self addChild:gameEndPopover];
+  [self performSelector:@selector(nothing) withObject:nil afterDelay:2.0];
+  [audio playEffect:@"ctwin.mp3"];
+
 
   NSNumber *highScore = [[NSUserDefaults standardUserDefaults]objectForKey:@"highscore"];
   if (self.score > [highScore intValue]) {
@@ -136,12 +151,39 @@ static const NSInteger WIN_TILE = 2048;
   }
 }
 
+- (void)endGameDefeat:(NSString *)message {
+    GameEnd *gameEndPopover = (GameEnd *)[CCBReader load:@"GameEndDefeat"];
+    gameEndPopover.positionType = CCPositionTypeNormalized;
+    gameEndPopover.position = ccp(0.5, 0.5);
+    gameEndPopover.zOrder = INT_MAX;
+    
+    [gameEndPopover setMessage:message score:self.score];
+    
+
+    [audio playEffect:@"bomb.wav"];
+    [self addChild:gameEndPopover];
+    [self performSelector:@selector(nothing) withObject:nil afterDelay:2.0];
+    [audio playEffect:@"twin.mp3"];
+    
+    NSNumber *highScore = [[NSUserDefaults standardUserDefaults]objectForKey:@"highscore"];
+    if (self.score > [highScore intValue]) {
+        // new highscore!
+        highScore = [NSNumber numberWithInt:self.score];
+        [[NSUserDefaults standardUserDefaults]setObject:highScore forKey:@"highscore"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+    }
+}
+
+-(void)nothing {
+    //Used for delays to properly time audio
+}
+
 - (void)win {
-  [self endGameWithMessage:@"You win!"];
+  [self endGameVictory:@"Counter-Terrorists win!"];
 }
 
 - (void)loose {
-  [self endGameWithMessage:@"You loose!"];
+  [self endGameDefeat:@"Terrorists win!"];
 }
 
 #pragma mark - Touch Handling

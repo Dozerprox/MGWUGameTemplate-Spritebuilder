@@ -13,9 +13,6 @@
   Grid *_grid;
   CCLabelTTF *_scoreLabel;
   CCLabelTTF *_highscoreLabel;
-    NSDate *start;
-    bool _planted;
-    OALSimpleAudio *audio;
 }
 
 - (void)dealloc {
@@ -32,17 +29,6 @@
 
   // load highscore
   [self updateHighscore];
-    //gettimeofday(&tv,NULL);
-    start = [NSDate date];
-    _planted = false;
-    audio = [OALSimpleAudio sharedInstance];
-    [audio preloadEffect:@"Resources/Audio/planted.mp3"];
-    [audio preloadEffect:@"Resources/Audio/bomb.wav"];
-    [audio preloadEffect:@"Resources/Audio/twin.mp3"];
-    [audio preloadEffect:@"Resources/Audio/ctwin.mp3"];
-    [audio preloadEffect:@"Resources/Audio/getout.mp3"];
-    [audio preloadEffect:@"Resources/Audio/defused.mp3"];
-    [audio playEffect:@"go.mp3"];
 }
 
 - (void)updateHighscore {
@@ -63,26 +49,5 @@
   }
 }
 
-float roundToN(float num, int decimals)
-{
-    int tenpow = 1;
-    for (; decimals; tenpow *= 10, decimals--);
-    return round(tenpow * num) / tenpow;
-}
-
-- (void)update:(CCTime)delta {
-    NSTimeInterval timeInterval = [start timeIntervalSinceNow];
-    if (roundToN(timeInterval * -1,2 ) == 5.0f ) {
-        //_planted = true;
-        [audio playEffect:@"planted.mp3"];
-        NSLog(@"%f", timeInterval);
-    }
-    
-    if (roundToN(timeInterval * -1,2 ) == 10.0f ) {
-        //_planted = true;
-        [audio playEffect:@"bomb.wav"];
-        NSLog(@"%f", timeInterval);
-    }
-}
 
 @end
