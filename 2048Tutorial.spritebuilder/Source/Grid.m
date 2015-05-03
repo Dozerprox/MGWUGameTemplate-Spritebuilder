@@ -9,6 +9,7 @@
 #import "Grid.h"
 #import "Tile.h"
 #import "GameEnd.h"
+#import "AudioToolbox/AudioToolbox.h"
 
 @implementation Grid {
   CGFloat _columnWidth;
@@ -159,7 +160,7 @@ static const NSInteger WIN_TILE = 2048;
     
     [gameEndPopover setMessage:message score:self.score];
     
-
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     [audio playEffect:@"bomb.wav"];
     [self addChild:gameEndPopover];
     [self performSelector:@selector(nothing) withObject:nil afterDelay:2.0];
